@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Animated Counter</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f1f1f1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .counter-box {
+        text-align: center;
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    #number {
+        font-size: 70px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    button {
+        padding: 12px 25px;
+        font-size: 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .increase {
+        background: #27ae60;
+        color: white;
+    }
+
+    .decrease {
+        background: #e74c3c;
+        color: white;
+    }
+
+    button:hover {
+        transform: scale(1.1);
+    }
+
+    /* Emoji animation */
+    .emoji {
+        position: absolute;
+        font-size: 30px;
+        animation: floatUp 1s ease-out forwards;
+        pointer-events: none;
+    }
+
+    @keyframes floatUp {
+        0% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-60px); }
+    }
+</style>
+</head>
+<body>
+
+<div class="counter-box">
+    <div id="number">0</div>
+    <button class="increase">➕ Increase</button>
+    <button class="decrease">➖ Decrease</button>
+</div>
+
+<script>
+    const number = document.getElementById("number");
+    const increaseBtn = document.querySelector(".increase");
+    const decreaseBtn = document.querySelector(".decrease");
+
+    let count = 0;
+
+    function animateNumber() {
+        number.style.transform = "scale(1.2)";
+        setTimeout(() => {
+            number.style.transform = "scale(1)";
+        }, 200);
+    }
+
+    function createEmoji(emoji) {
+        const span = document.createElement("span");
+        span.classList.add("emoji");
+        span.innerText = emoji;
+        document.body.appendChild(span);
+
+        span.style.left = (window.innerWidth / 2) + "px";
+        span.style.top = (window.innerHeight / 2 + 20) + "px";
+
+        setTimeout(() => span.remove(), 1000);
+    }
+
+    increaseBtn.addEventListener("click", () => {
+        count%= 2;
+        number.textContent = count;
+        animateNumber();
+        const emojis = ["🤣","🎇","🎆","😂","😄","😆","😎","😋"];
+    const random = emojis[Math.floor(Math.random() * emojis.length)];
+    createEmoji(random);
+        
+    });
+
+    decreaseBtn.addEventListener("click", () => {
+        count %=2;
+        number.textContent = count;
+        animateNumber();
+        const emojis = ["😅", "😝", "😛", "🤠", "🎉", "🧨", "🎃", "😈"];
+    const random = emojis[Math.floor(Math.random() * emojis.length)];
+    createEmoji(random);
+    });
+</script>
+
+</body>
+</html>
