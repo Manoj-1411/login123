@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Form Replica (With Validation)</title>
+    <style>
+        /* --- CSS STYLING (Same as before for visual replica) --- */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .form-container {
+            background-color: #4a75a7;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 700px;
+            color: white;
+        }
+        h2 {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        .form-group > div {
+            width: 48%;
+            display: flex;
+            flex-direction: column; /* Changed to column to stack label and error */
+        }
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        label {
+            width: 120px;
+            margin-right: 10px;
+            font-weight: bold;
+            text-align: left;
+        }
+        input[type="text"], 
+        input[type="email"], 
+        input[type="password"], 
+        input[type="date"],
+        input[type="number"],
+        select {
+            flex-grow: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .section-title {
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            display: block;
+        }
+        .selection-group {
+            padding: 10px 0;
+            border-top: 1px solid #6c91b8;
+            border-bottom: 1px solid #6c91b8;
+        }
+        .selection-group label {
+            width: auto;
+            margin-right: 20px;
+            font-weight: normal;
+        }
+
+        /* Error Message Styling */
+        .error-message {
+            color: #ffdd00; /* Bright yellow/gold for visibility */
+            font-size: 0.85em;
+            margin-top: 5px;
+            height: 15px; /* Fixed height to prevent layout jump */
+        }
+        input.input-error, select.input-error {
+            border: 2px solid #ffdd00 !important;
+        }
+
+        /* Button styling */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .button-group button {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0 10px;
+            min-width: 100px;
+        }
+        .button-group button[type="submit"] {
+            background-color: #b84c4c;
+            color: white;
+        }
+        .button-group button[type="reset"] {
+            background-color: #b84c4c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Application Form</h2>
+
+    <form id="applicationForm" onsubmit="return validateForm(event)">
+        <div class="form-group">
+            <div id="firstNameGroup">
+                <div class="input-wrapper">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                </div>
+                <div class="error-message" id="firstNameError"></div>
+            </div>
+            <div id="lastNameGroup">
+                <div class="input-wrapper">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                </div>
+                <div class="error-message" id="lastNameError"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div id="dobGroup">
+                <div class="input-wrapper">
+                    <label for="dob">Date of birth:</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                <div class="error-message" id="dobError"></div>
+            </div>
+            <div id="ageGroup">
+                <div class="input-wrapper">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" readonly placeholder="Calculated by DOB"> 
+                </div>
+                <div class="error-message" id="ageError"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div id="genderGroup">
+                <div class="input-wrapper">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select...</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="error-message" id="genderError"></div>
+            </div>
+            <div id="emailGroup">
+                <div class="input-wrapper">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" placeholder="e.g. your@email.com" required>
+                </div>
+                <div class="error-message" id="emailError"></div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div id="countryGroup">
+                <div class="input-wrapper">
+                    <label for="country">Country:</label>
+                    <select id="country" name="country" required>
+                        <option value="">Select Country</option>
+                        <option value="us">United States</option>
+                        <option value="ca">Canada</option>
+                        <option value="gb">United Kingdom</option>
+                        <option value="in">India</option>
+                    </select>
+                </div>
+                <div class="error-message" id="countryError"></div>
+            </div>
+            <div></div> 
+        </div>
+
+        <div class="selection-group">
+            <span class="section-title">Positions Available:</span>
+            <input type="radio" id="juniorDev" name="position" value="junior">
+            <label for="juniorDev">Junior Developer</label>
+            
+            <input type="radio" id="midLevelDev" name="position" value="midLevel">
+            <label for="midLevelDev">Mid-level Developer</label>
+            
+            <input type="radio" id="seniorDev" name="position" value="senior">
+            <label for="seniorDev">Senior Developer</label>
+            <div class="error-message" id="positionError"></div>
+        </div>
+
+        <div class="selection-group">
+            <span class="section-title">Programming Languages:</span>
+            <input type="checkbox" id="java" name="lang[]" value="Java">
+            <label for="java">Java</label>
+
+            <input type="checkbox" id="js" name="lang[]" value="JavaScript">
+            <label for="js">JavaScript</label>
+
+            <input type="checkbox" id="python" name="lang[]" value="Python">
+            <label for="python">Python</label>
+            <div class="error-message" id="langError"></div>
+        </div>
+
+        <div class="form-group">
+            <div id="passwordGroup">
+                <div class="input-wrapper">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="error-message" id="passwordError"></div>
+            </div>
+            <div id="confirmPasswordGroup">
+                <div class="input-wrapper">
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <div class="error-message" id="confirmPasswordError"></div>
+            </div>
+        </div>
+        
+        <div class="button-group">
+            <button type="submit">Submit</button>
+            <button type="reset">Reset</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Helper function to show errors
+    function displayError(inputElement, errorMessage) {
+        const input = document.getElementById(inputElement.id);
+        const errorDiv = document.getElementById(inputElement.id + 'Error');
+        
+        if (errorMessage) {
+            input.classList.add('input-error');
+            errorDiv.textContent = errorMessage;
+            return false;
+        } else {
+            input.classList.remove('input-error');
+            errorDiv.textContent = '';
+            return true;
+        }
+    }
+
+    // Function to calculate age from DOB
+    function calculateAge(dobString) {
+        const today = new Date();
+        const birthDate = new Date(dobString);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        // Adjust age if the birthday hasn't happened yet this year
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    }
+
+    // Main validation function
+    function validateForm(event) {
+        let isValid = true;
+        
+        // 1. Password Match Validation
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        if (password.value !== confirmPassword.value) {
+            displayError(confirmPassword, 'Passwords do not match.');
+            isValid = false;
+        } else if (!password.value) { // Basic check for empty password (if not caught by required)
+             displayError(confirmPassword, 'Please confirm your password.');
+             isValid = false;
+        } else {
+            displayError(confirmPassword, '');
+        }
+
+        // 2. Age Validation (must be 18+)
+        const dobInput = document.getElementById('dob');
+        const ageInput = document.getElementById('age');
+        
+        if (dobInput.value) {
+            const age = calculateAge(dobInput.value);
+            ageInput.value = age; // Update the age display field
+            
+            if (age < 18) {
+                displayError(dobInput, 'Must be 18 years or older.');
+                isValid = false;
+            } else {
+                displayError(dobInput, '');
+            }
+        } else {
+             ageInput.value = ''; // Clear age if DOB is empty
+             displayError(dobInput, 'Date of birth is required.');
+             isValid = false;
+        }
+
+        // 3. Selection Group Validation (Radio: Position)
+        const positionRadios = document.getElementsByName('position');
+        const positionError = document.getElementById('positionError');
+        let positionSelected = Array.from(positionRadios).some(radio => radio.checked);
+        if (!positionSelected) {
+            positionError.textContent = 'Please select a position.';
+            isValid = false;
+        } else {
+            positionError.textContent = '';
+        }
+        
+        // 4. Selection Group Validation (Checkbox: Languages - Optional, but good practice)
+        const langCheckboxes = document.getElementsByName('lang[]');
+        const langError = document.getElementById('langError');
+        let langSelected = Array.from(langCheckboxes).some(checkbox => checkbox.checked);
+        if (!langSelected) {
+            // Making this non-blocking but adding a warning/highlight
+            // If you want to make it mandatory, change logic
+            // langError.textContent = 'Please select at least one language.';
+            // isValid = false;
+        } else {
+            langError.textContent = '';
+        }
+        
+        // HTML5 required/email type usually handles text/dropdowns, but we'll add
+        // a simple check for empty dropdowns which are often missed by browser
+        const genderSelect = document.getElementById('gender');
+        if (!genderSelect.value) {
+            displayError(genderSelect, 'Please select your gender.');
+            isValid = false;
+        } else {
+            displayError(genderSelect, '');
+        }
+        
+        const countrySelect = document.getElementById('country');
+        if (!countrySelect.value) {
+            displayError(countrySelect, 'Please select your country.');
+            isValid = false;
+        } else {
+            displayError(countrySelect, '');
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+            alert('Please fix the errors shown in the form.');
+        } else {
+            // For demonstration, show success alert instead of submitting
+            event.preventDefault(); 
+            alert('Form submitted successfully! (Validation passed)');
+        }
+        
+        return isValid;
+    }
+
+    // Add event listener for real-time age calculation
+    document.getElementById('dob').addEventListener('change', function() {
+        const dobString = this.value;
+        const ageInput = document.getElementById('age');
+        const dobErrorDiv = document.getElementById('dobError');
+        
+        if (dobString) {
+            const age = calculateAge(dobString);
+            ageInput.value = age;
+            
+            if (age < 18) {
+                dobErrorDiv.textContent = 'Must be 18 years or older.';
+                ageInput.classList.add('input-error');
+                this.classList.add('input-error');
+            } else {
+                dobErrorDiv.textContent = '';
+                ageInput.classList.remove('input-error');
+                this.classList.remove('input-error');
+            }
+        } else {
+            ageInput.value = '';
+            dobErrorDiv.textContent = '';
+        }
+    });
+</script>
+
+</body>
+</html>     
