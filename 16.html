@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Our College</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #f8f9fa;
+        color: #333;
+    }
+
+    /* Header / Logo */
+    header {
+        background: #004080;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+    }
+
+    header img {
+        height: 60px;
+        vertical-align: middle;
+        margin-right: 15px;
+    }
+
+    header h1 {
+        display: inline-block;
+        font-size: 28px;
+        margin: 0;
+        vertical-align: middle;
+    }
+
+    /* About Section */
+    .about-section {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        margin: 50px auto;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .about-text {
+        flex: 1 1 500px;
+        padding: 40px;
+    }
+
+    .about-text h2 {
+        color: #004080;
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+
+    .about-text p {
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .about-images {
+        flex: 1 1 500px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .about-images img {
+        width: 100%;
+        height: auto;
+        border-bottom: 2px solid #004080;
+        object-fit: cover;
+    }
+
+    /* Anchor link styling */
+    .next-page {
+        display: block;
+        text-align: center;
+        margin: 40px 0;
+        font-size: 20px;
+        text-decoration: none;
+        color: white;
+        background-color: #004080;
+        padding: 12px 25px;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+
+    .next-page:hover {
+        background-color: #0066cc;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+        .about-section {
+            flex-direction: column;
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- Header with Logo -->
+<header>
+    <img src="https://i.ytimg.com/vi/KoOriOu7HlI/maxresdefault.jpg" alt="College Logo">
+    <h1>Our College</h1>
+</header>
+
+<!-- About Section -->
+<section class="about-section">
+    <!-- Text Content -->
+    <div class="about-text">
+        <h2>About Our College</h2>
+        <p>Our college is a premier institution dedicated to academic excellence, holistic development, and fostering innovation. Established with a vision to provide quality education, we empower students with knowledge, skills, and values required to succeed in a rapidly evolving world.</p>
+        <p>We offer a wide range of programs across diverse disciplines, combining rigorous academics with practical experiences to prepare students for real-world challenges. Our faculty comprises highly qualified and experienced educators who are committed to nurturing talent and inspiring curiosity.</p>
+        <p>Beyond academics, we encourage participation in extracurricular activities, sports, cultural events, and community service, promoting a well-rounded and inclusive learning environment.</p>
+    </div>
+
+    <!-- Images -->
+    <div class="about-images">
+        <img src="https://t3.ftcdn.net/jpg/03/01/48/18/360_F_301481839_p4RvuPBeFTeNvDXyl2ez822gZhQ7ZWEF.jpg" alt="Campus View">
+        <img src="https://img.freepik.com/free-photo/application-programming-interface-hologram_23-2149092255.jpg?semt=ais_hybrid&w=740&q=80" alt="Students Activities">
+    </div>
+</section>
+
+<!-- Anchor link to next page -->
+<a href="14.html" class="next-page">Go to Next Page</a>
+
+</body>
+</html>

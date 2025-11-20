@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultra High-Tech Electricity Bill Calculator</title>
+
+<style>
+/* -------------------- GLOBAL -------------------- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Orbitron", "Poppins", sans-serif;
+    background: radial-gradient(circle at top, #07121f, #020611);
+    color: #dff6ff;
+    overflow-x: hidden;
+}
+
+/* Futuristic grid background lines */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#0a2340 1px, transparent 1px),
+                linear-gradient(90deg, #0a2340 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.08;
+    z-index: -1;
+}
+
+/* -------------------- HEADER -------------------- */
+header {
+    text-align: center;
+    padding: 30px 0;
+    font-size: 38px;
+    letter-spacing: 3px;
+    font-weight: 900;
+    color: #39eaff;
+    text-shadow: 0 0 20px #39eaff, 0 0 45px #00bcd4;
+}
+
+/* -------------------- HOLOGRAPHIC CONTAINER -------------------- */
+.container {
+    max-width: 480px;
+    margin: 60px auto;
+    padding: 45px 35px;
+    background: rgba(0, 40, 70, 0.35);
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(0, 195, 255, 0.25),
+                inset 0 0 25px rgba(0, 195, 255, 0.2);
+    backdrop-filter: blur(16px);
+    position: relative;
+    border: 2px solid rgba(0, 195, 255, 0.25);
+    animation: floatUp 2s ease-out;
+}
+
+/* Neon circuit design corners */
+.container::before, .container::after {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border: 3px solid #00eaff;
+    border-radius: 12px;
+    opacity: 0.15;
+}
+.container::before {
+    top: -20px;
+    left: -20px;
+    border-right: 0;
+    border-bottom: 0;
+}
+.container::after {
+    bottom: -20px;
+    right: -20px;
+    border-left: 0;
+    border-top: 0;
+}
+
+/* Float animation */
+@keyframes floatUp {
+    from { opacity: 0; transform: translateY(45px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* -------------------- TITLE -------------------- */
+.container h2 {
+    text-align: center;
+    font-size: 26px;
+    color: #39eaff;
+    margin-bottom: 25px;
+    text-shadow: 0 0 18px #00eaff;
+}
+
+/* -------------------- INPUT -------------------- */
+label {
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+select, input {
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 15px;
+    backdrop-filter: blur(6px);
+    transition: 0.3s;
+}
+
+select:focus, input:focus {
+    border: 1px solid #39eaff;
+    box-shadow: 0 0 15px #00eaff;
+}
+
+/* -------------------- BUTTON -------------------- */
+button {
+    width: 100%;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #008cff, #00eaff, #00ffd9);
+    border: none;
+    color: #00121f;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(0, 195, 255, 0.6);
+    transition: 0.4s;
+}
+
+button:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.9),
+                0 0 80px rgba(0, 255, 255, 0.6);
+}
+
+/* -------------------- RESULT -------------------- */
+.result-box {
+    margin-top: 25px;
+    padding: 20px;
+    background: rgba(0, 255, 255, 0.1);
+    border-left: 4px solid #00eaff;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #39eaff;
+    display: none;
+    text-shadow: 0 0 25px #00eaff;
+}
+
+/* -------------------- FOOTER -------------------- */
+footer {
+    text-align: center;
+    padding: 25px;
+    margin-top: 40px;
+    font-size: 14px;
+    color: #8fbcd4;
+}
+</style>
+</head>
+
+<body>
+
+<header>⚡ FUTURISTIC BILL CALCULATOR</header>
+
+<div class="container">
+    <h2>AI-Powered Cost Estimator</h2>
+
+    <label>Consumer Type</label>
+    <select id="type">
+        <option value="domestic">Domestic</option>
+        <option value="commercial">Commercial</option>
+    </select>
+
+    <label>Units Consumed</label>
+    <input type="number" id="units" placeholder="Enter units (kWh)">
+
+    <button onclick="calculateBill()">CALCULATE</button>
+
+    <div id="result" class="result-box"></div>
+</div>
+
+<footer>© 2025 QuantumGrid Power Systems — HyperTech UI Framework</footer>
+
+<script>
+function calculateBill() {
+    let type = document.getElementById("type").value;
+    let units = Number(document.getElementById("units").value);
+    let amount = 0;
+
+    if (units <= 0 || isNaN(units)) {
+        showResult("⚠️ Invalid input. Please enter valid units.");
+        return;
+    }
+
+    // Domestic tariff logic
+    if (type === "domestic") {
+        if (units <= 100) amount = units * 4;
+        else if (units <= 200) amount = (100 * 4) + ((units - 100) * 6);
+        else amount = (100 * 4) + (100 * 6) + ((units - 200) * 8);
+    }
+
+    // Commercial tariff logic
+    if (type === "commercial") {
+        if (units <= 100) amount = units * 8;
+        else if (units <= 200) amount = (100 * 8) + ((units - 100) * 10);
+        else amount = (100 * 8) + (100 * 10) + ((units - 200) * 12);
+    }
+
+    showResult(`⚡ Estimated Bill: ₹ ${amount.toFixed(2)}`);
+}
+
+function showResult(text) {
+    let box = document.getElementById("result");
+    box.style.display = "block";
+    box.innerHTML = text;
+}
+</script>
+
+</body>
+</html>
